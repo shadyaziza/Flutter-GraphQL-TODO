@@ -56,27 +56,14 @@ class _AllState extends State<All> {
                 {VoidCallback refetch, FetchMore fetchMore}) {
               refetchQuery = refetch;
               if (result.hasException) {
-                final snackBar = SnackBar(
-                  backgroundColor: Colors.redAccent,
-                  content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text(result.exception.toString()),
-                      Icon(Icons.error)
-                    ],
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                _showSnackBar(result.exception.toString(), Icon(Icons.error),
+                    Colors.redAccent);
                 return Container();
               }
               if (result.loading) {
-                final snackBar = SnackBar(
-                  content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [Text("Loading"), CircularProgressIndicator()],
-                  ),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                _showSnackBar(
+                    "Loading", CircularProgressIndicator(), Colors.blueGrey);
+
                 return Container();
               }
               final List<LazyCacheMap> todos =
@@ -103,5 +90,18 @@ class _AllState extends State<All> {
         ),
       ],
     );
+  }
+
+  _showSnackBar(String text, Widget widget, Color color) {
+    final snackBar = SnackBar(
+      backgroundColor: color,
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [Flexible(child: Text(text)), widget],
+      ),
+    );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
   }
 }
