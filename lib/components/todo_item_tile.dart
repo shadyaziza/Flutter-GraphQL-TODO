@@ -39,7 +39,23 @@ class TodoItemTile extends StatelessWidget {
                       ? TextDecoration.lineThrough
                       : TextDecoration.none)),
           leading: Mutation(
-            options: MutationOptions(document: toggleDocument),
+            options: MutationOptions(
+              documentNode: gql(toggleDocument),
+              update: (Cache cache, QueryResult result) {
+                if (result.hasException) {
+                  print(result.exception.toString());
+                } else {
+                  final Map<String, Object> updated =
+                      Map<String, Object>.from(item.toJson())
+                        ..addAll(extractTodoData(result.data));
+                  cache.write(typenameDataIdFromObject(updated), updated);
+                }
+                return cache;
+              },
+              onCompleted: (onValue) {
+                refetchQuery();
+              },
+            ),
             builder: (
               RunMutation runMutation,
               QueryResult result,
@@ -65,20 +81,6 @@ class TodoItemTile extends StatelessWidget {
                       : Icons.radio_button_checked),
                 ),
               );
-            },
-            update: (Cache cache, QueryResult result) {
-              if (result.hasErrors) {
-                print(result.errors);
-              } else {
-                final Map<String, Object> updated =
-                    Map<String, Object>.from(item.toJson())
-                      ..addAll(extractTodoData(result.data));
-                cache.write(typenameDataIdFromObject(updated), updated);
-              }
-              return cache;
-            },
-            onCompleted: (onValue) {
-              refetchQuery();
             },
           ),
         ),

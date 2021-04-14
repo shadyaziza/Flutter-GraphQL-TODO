@@ -29,13 +29,15 @@ class _AllState extends State<All> {
     return Column(
       children: <Widget>[
         Mutation(
-          options: MutationOptions(document: TodoFetch.addTodo),
-          update: (Cache cache, QueryResult result) {
-            return cache;
-          },
-          onCompleted: (dynamic resultData) {
-            refetchQuery();
-          },
+          options: MutationOptions(
+            documentNode: gql(TodoFetch.addTodo),
+            update: (Cache cache, QueryResult result) {
+              return cache;
+            },
+            onCompleted: (dynamic resultData) {
+              refetchQuery();
+            },
+          ),
           builder: (
             RunMutation runMutation,
             QueryResult result,
@@ -49,17 +51,17 @@ class _AllState extends State<All> {
         ),
         Expanded(
           child: Query(
-            options: QueryOptions(document: TodoFetch.fetchAll),
+            options: QueryOptions(documentNode: gql(TodoFetch.fetchAll)),
             builder: (QueryResult result,
                 {VoidCallback refetch, FetchMore fetchMore}) {
               refetchQuery = refetch;
-              if (result.hasErrors) {
+              if (result.hasException) {
                 final snackBar = SnackBar(
                   backgroundColor: Colors.redAccent,
                   content: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text(result.errors.toString()),
+                      Text(result.exception.toString()),
                       Icon(Icons.error)
                     ],
                   ),
