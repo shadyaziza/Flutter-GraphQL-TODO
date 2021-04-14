@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../services/shared_preferences_service.dart';
-import '../services/shared_preferences_service.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({Key key}) : super(key: key);
@@ -23,7 +22,7 @@ class Dashboard extends StatelessWidget {
         }
         if (snapshot.hasData) {
           children = GraphQLProvider(
-            client: Config.initailizeClient(Config.token),
+            client: Config.initailizeClient(snapshot.data),
             child: DefaultTabController(
               length: 3,
               child: Scaffold(
