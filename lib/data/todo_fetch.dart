@@ -24,4 +24,22 @@ class TodoFetch {
     title
   }
   }""";
+  static String addTodo =
+      '''mutation addTodo(\$title: String!, \$isPublic: Boolean!) {
+ action: insert_todos(objects: { title: \$title, is_public: \$isPublic }) {
+    returning {
+     id
+     title
+     is_completed
+   }
+ }
+ }''';
+  static String toggleTodo =
+      """mutation toggleTodo(\$id:Int!, \$isCompleted: Boolean!) {
+  action: update_todos(where: {id: {_eq: \$id}}, _set: {is_completed: \$isCompleted}) {
+   returning {
+      is_completed
+    }
+  }
+ }""";
 }

@@ -28,9 +28,23 @@ class _AllState extends State<All> {
     print("All tab");
     return Column(
       children: <Widget>[
-        AddTask(
-          onAdd: (value) {
-            todoList.addTodo(value);
+        Mutation(
+          options: MutationOptions(document: TodoFetch.addTodo),
+          update: (Cache cache, QueryResult result) {
+            return cache;
+          },
+          onCompleted: (dynamic resultData) {
+            refetchQuery();
+          },
+          builder: (
+            RunMutation runMutation,
+            QueryResult result,
+          ) {
+            return AddTask(
+              onAdd: (value) {
+                runMutation({'title': value, 'isPublic': false});
+              },
+            );
           },
         ),
         Expanded(
@@ -44,7 +58,10 @@ class _AllState extends State<All> {
                   backgroundColor: Colors.redAccent,
                   content: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [Text("Error"), Icon(Icons.error)],
+                    children: [
+                      Text(result.errors.toString()),
+                      Icon(Icons.error)
+                    ],
                   ),
                 );
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -67,10 +84,16 @@ class _AllState extends State<All> {
                 itemBuilder: (context, index) {
                   dynamic responseData = todos[index];
                   return TodoItemTile(
-                      item: TodoItem.fromElements(responseData["id"],
-                          responseData['title'], responseData['is_completed']),
-                      delete: () {},
-                      toggleIsCompleted: () {});
+                    item: TodoItem.fromElements(responseData["id"],
+                        responseData['title'], responseData['is_completed']),
+                    delete: () {},
+                    toggleDocument: TodoFetch.toggleTodo,
+                    toggleRunMutaion: {
+                      'id': responseData["id"],
+                      'isCompleted': !responseData['is_completed']
+                    },
+                    refetchQuery: refetchQuery,
+                  );
                 },
               );
             },
