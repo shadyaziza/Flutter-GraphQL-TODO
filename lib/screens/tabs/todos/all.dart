@@ -51,7 +51,10 @@ class _AllState extends State<All> {
         ),
         Expanded(
           child: Query(
-            options: QueryOptions(documentNode: gql(TodoFetch.fetchAll)),
+            options: QueryOptions(
+              documentNode: gql(TodoFetch.fetchAll),
+              variables: {"is_public": false},
+            ),
             builder: (QueryResult result,
                 {VoidCallback refetch, FetchMore fetchMore}) {
               refetchQuery = refetch;
