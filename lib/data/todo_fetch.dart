@@ -42,4 +42,11 @@ class TodoFetch {
     }
   }
  }""";
+  static String deleteTodo = """mutation delete(\$id:Int!) {
+ action: delete_todos(where: {id: {_eq: \$id}}) {
+    returning {
+      id
+    }
+  }
+ }""";
 }

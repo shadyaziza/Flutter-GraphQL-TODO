@@ -75,7 +75,10 @@ class _AllState extends State<All> {
                   return TodoItemTile(
                     item: TodoItem.fromElements(responseData["id"],
                         responseData['title'], responseData['is_completed']),
-                    delete: () {},
+                    deleteDocument: TodoFetch.deleteTodo,
+                    deleteRunMutaion: {
+                      'id': responseData["id"],
+                    },
                     toggleDocument: TodoFetch.toggleTodo,
                     toggleRunMutaion: {
                       'id': responseData["id"],
