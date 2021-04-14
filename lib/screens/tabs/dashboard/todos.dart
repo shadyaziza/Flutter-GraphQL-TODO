@@ -17,6 +17,7 @@ class _TodosState extends State<Todos> {
       child: Scaffold(
         appBar: AppBar(
           title: TabBar(
+            indicatorColor: Colors.white,
             tabs: [
               Tab(
                 text: "All",

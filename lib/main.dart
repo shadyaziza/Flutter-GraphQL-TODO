@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Hasura GraphQL Demo',
-      theme: ThemeData(primaryColor: Colors.blueGrey),
+      theme: ThemeData(primaryColor: Colors.teal),
       routes: routes,
       home: Splash(),
     );

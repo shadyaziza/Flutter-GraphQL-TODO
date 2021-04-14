@@ -57,7 +57,7 @@ class Dashboard extends StatelessWidget {
                       icon: new Icon(Icons.people),
                     ),
                   ],
-                  labelColor: Colors.black,
+                  labelColor: Colors.teal,
                   unselectedLabelColor: Colors.grey,
                   indicatorSize: TabBarIndicatorSize.label,
                   indicatorPadding: EdgeInsets.all(5.0),

@@ -64,8 +64,8 @@ class _AllState extends State<All> {
                 return Container();
               }
               if (result.loading) {
-                _showSnackBar(
-                    "Loading", CircularProgressIndicator(), Colors.blueGrey);
+                _showSnackBar("Loading", CircularProgressIndicator(),
+                    Colors.blueGrey[700]);
 
                 return Container();
               }

@@ -61,8 +61,8 @@ class _CompletedState extends State<Completed> {
                 return Container();
               }
               if (result.loading) {
-                _showSnackBar(
-                    "Loading", CircularProgressIndicator(), Colors.blueGrey);
+                _showSnackBar("Loading", CircularProgressIndicator(),
+                    Colors.blueGrey[700]);
 
                 return Container();
               }
